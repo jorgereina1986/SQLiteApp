@@ -8,9 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper myDb;
+    EditText editName;
+    EditText editSurname;
+    EditText editMarks;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +28,34 @@ public class MainActivity extends AppCompatActivity {
 
         myDb = new DatabaseHelper(this);
 
+        editName = (EditText) findViewById(R.id.name_et);
+        editSurname = (EditText) findViewById(R.id.surname_et);
+        editMarks = (EditText) findViewById(R.id.marks_et);
+        addButton = (Button) findViewById(R.id.add_button);
+        addData();
+
+
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+    }
+
+    public void addData(){
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isInserted = myDb.insertData(editName.getText().toString(),
+                        editSurname.getText().toString(),
+                        editMarks.getText().toString());
+                if (isInserted = true)
+                    Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
             }
         });
     }
