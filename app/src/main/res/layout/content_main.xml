@@ -72,6 +72,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Data"/>
+    <Button
+        android:id="@+id/view_data_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Data"/>
+
 
 
 </LinearLayout>

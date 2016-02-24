@@ -1,5 +1,7 @@
 package jorgereina1986.c4q.nyc.sqliteapp;
 
+import android.app.AlertDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editSurname;
     EditText editMarks;
     Button addButton;
+    Button viewDataButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,12 @@ public class MainActivity extends AppCompatActivity {
         editSurname = (EditText) findViewById(R.id.surname_et);
         editMarks = (EditText) findViewById(R.id.marks_et);
         addButton = (Button) findViewById(R.id.add_button);
+        viewDataButton = (Button) findViewById(R.id.view_data_button);
+
         addData();
+        viewAll();
+
+
 
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -58,6 +66,39 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void viewAll(){
+        viewDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor res = myDb.getAllData();
+                if(res.getCount() == 0){
+                    // SHOW MESSAGE
+                    showMessage("Error", "Nothing Found");
+                    return;
+                }
+
+                StringBuffer buffer = new StringBuffer();
+                while(res.moveToNext()){
+                    buffer.append("Id: " + res.getString(0) + "\n");
+                    buffer.append("Name: " + res.getString(1) + "\n");
+                    buffer.append("Surname: " + res.getString(2) + "\n");
+                    buffer.append("Marks: " + res.getString(3) + "\n\n");
+                }
+
+                // SHOW ALL DATA
+                showMessage("Data", buffer.toString());
+            }
+        });
+    }
+
+    public void showMessage(String title, String Message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
     }
 
     @Override
