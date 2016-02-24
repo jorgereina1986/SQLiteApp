@@ -19,8 +19,10 @@ public class MainActivity extends AppCompatActivity {
     EditText editName;
     EditText editSurname;
     EditText editMarks;
+    EditText editId;
     Button addButton;
     Button viewDataButton;
+    Button updateDataButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
         editName = (EditText) findViewById(R.id.name_et);
         editSurname = (EditText) findViewById(R.id.surname_et);
         editMarks = (EditText) findViewById(R.id.marks_et);
+        editId = (EditText) findViewById(R.id.id_et);
         addButton = (Button) findViewById(R.id.add_button);
         viewDataButton = (Button) findViewById(R.id.view_data_button);
+        updateDataButton = (Button) findViewById(R.id.update_data_button);
 
         addData();
         viewAll();
+        updateData();
 
 
 
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean isInserted = myDb.insertData(editName.getText().toString(),
                         editSurname.getText().toString(),
                         editMarks.getText().toString());
-                if (isInserted = true)
+                if (isInserted == true)
                     Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
@@ -89,6 +94,23 @@ public class MainActivity extends AppCompatActivity {
 
                 // SHOW ALL DATA
                 showMessage("Data", buffer.toString());
+            }
+        });
+    }
+
+    public void updateData(){
+        updateDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isUpdated = myDb.updateData(editId.getText().toString(),
+                        editName.getText().toString(),
+                        editSurname.getText().toString(),
+                        editMarks.getText().toString());
+                if(isUpdated == true)
+                    Toast.makeText(MainActivity.this, "Data Updated", Toast.LENGTH_LONG).show();
+                    else
+                    Toast.makeText(MainActivity.this, "Data not Updated", Toast.LENGTH_LONG).show();
+
             }
         });
     }
